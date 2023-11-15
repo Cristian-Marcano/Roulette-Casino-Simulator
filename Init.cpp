@@ -29,15 +29,15 @@ void roulette_rotation(long double &roulette_angle,int centerX,int centerY,int r
 		line(x1,y1,x2,y2);
 		if(i==0 || i==37){
 			setfillstyle(SOLID_FILL,GREEN);
-			setbkcolor(GREEN);
+//			setbkcolor(GREEN);
 		}
 		else if(findNegros(i)){
 			setfillstyle(SOLID_FILL,BLACK);
-			setbkcolor(BLACK);
+//			setbkcolor(BLACK);
 		}
 		else{
 			setfillstyle(SOLID_FILL,RED);
-			setbkcolor(RED);
+//			setbkcolor(RED);
 		}
 		floodfill(x3,y3,WHITE);
 //		string x = to_string(i);
