@@ -16,18 +16,22 @@ class Roulette{
 		//radius: radio del circulo interno, osea el mas pequeño
 		//radius2: radio del circulo medio, el que esta entre el mas grande y el mas pequeño
 		//radius3: radio del circulo grande, el que es el tamaño completo de la ruleta
-		int center_roulette_X, center_roulette_Y, radius = 100, radius2 = 120, radius3 = 150;
+		int center_roulette_X, center_roulette_Y, radius, radius2, radius3;
 		//roulette_angle: angulo inicial de la ruleta esto es en base al angulo inicial de la ruleta
 		//ball_angle: angulo inicial de la bola dentro de la ruleta
 		//roulette_speed: velocidad de la ruleta en grados
 		//ball_speed: velocidad de la bola en grados
 		double roulette_angle = -90, ball_angle = -90, roulette_speed, ball_speed;
 	public:
-		Roulette(int x, int y){ //inicializar ruleta
+		Roulette(int x, int y,int radius,int radius2,int radius3){ //inicializar ruleta
 			this->center_roulette_X = x;
 			this->center_roulette_Y = y;
+			this->radius = radius;
+			this->radius2 = radius2;
+			this->radius3 = radius3;
 		}
 		void initialize(); //inicializar velocidad
+		void print_roulette(); // muestra la ruleta estatica
 		void roulette_rotation(); //rotacion de la ruleta
 		void ball_rotation(); //rotacion de la bola
 		int search_repetition_for_square(int); // buscar cuantas casillas hay por delante de la casilla 0 hasta encontrar la casilla ganadora
@@ -45,6 +49,31 @@ class Roulette{
 void Roulette::initialize(){
 	this->ball_speed = 9;
 	this->roulette_speed = 5;
+}
+
+void Roulette::print_roulette(){
+	setcolor(WHITE);
+	double roulette_angle = this->roulette_angle;
+	circle(this->center_roulette_X,this->center_roulette_Y,this->radius);
+	circle(this->center_roulette_X,this->center_roulette_Y,this->radius3);
+	for(int i: this->roulette_numbers){
+		roulette_angle += squareAngle;
+		int x1 = this->center_roulette_X + this->radius * cos(roulette_angle*(M_PI/180)), y1 = this->center_roulette_Y + this->radius * sin(roulette_angle*(M_PI/180));
+		int x2 = this->center_roulette_X + this->radius3 * cos(roulette_angle*(M_PI/180)), y2 = this->center_roulette_Y + this->radius3 * sin(roulette_angle*(M_PI/180));
+		int x3 = this->center_roulette_X + ((this->radius+this->radius3)/2) * cos((roulette_angle+mid_sA)*(M_PI/180)), y3 = this->center_roulette_Y + ((this->radius+this->radius3)/2) * sin((roulette_angle+mid_sA)*(M_PI/180));
+		line(x1,y1,x2,y2);
+		if(i==0) setfillstyle(SOLID_FILL,GREEN);
+		else if(this->findNegros(i)) setfillstyle(SOLID_FILL,BLACK);
+		else setfillstyle(SOLID_FILL,RED);
+		floodfill(x3,y3,WHITE);
+	}
+	circle(this->center_roulette_X,this->center_roulette_Y,this->radius2);
+	int distancia = (this->radius+this->radius2)/2;
+	int x = this->center_roulette_X + distancia * cos(this->ball_angle*(M_PI/180)), y = this->center_roulette_Y + distancia * sin(this->ball_angle*(M_PI/180));
+	setcolor(YELLOW);
+	circle(x,y,((this->radius2-this->radius)/2)-1);
+	setfillstyle(SOLID_FILL,YELLOW);
+	floodfill(x,y,YELLOW);
 }
 
 void Roulette::roulette_rotation(){
