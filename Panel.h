@@ -1,24 +1,29 @@
+#include"Boton.h"
 #include"Ruleta.h"
 
 class Panel{
 	private:
-		string name;
-		Roulette *ruleta;
+		char *name;
 		int x,y,width,height;
 	public:
-		Panel(string name){
+		Button *button;
+		Roulette *roulette;
+		Panel(char *name){
 			this->name = name;
 		}
 		void initialize_roulette();
 		void set_bounds(int,int,int,int);
 		void show_panel();
+		void show_number_win(int,int);
 };
 
 void Panel::initialize_roulette(){
 	int center_panel_X = (this->x+(this->width/2));
 	int center_panel_Y = (this->y+(this->height/2))-(this->height/10);
 	int radius3 = this->width/3, radius2 = radius3*0.8, radius = (2*radius3)/3;
-	this->ruleta = new Roulette(center_panel_X,center_panel_Y,radius,radius2,radius3);
+	this->roulette = new Roulette(center_panel_X,center_panel_Y,radius,radius2,radius3);
+	this->button = new Button("Girar");
+	this->button->set_bounds(this->x+radius3,this->height-(this->height/10)-(this->height/100),radius3,(this->height/10)-(this->height/100));
 }
 
 void Panel::set_bounds(int x,int y,int width,int height){
@@ -29,13 +34,36 @@ void Panel::set_bounds(int x,int y,int width,int height){
 }
 
 void Panel::show_panel(){
+	settextstyle(11,0,1);
 	rectangle(this->x,this->y,this->x+this->width,this->height);
-	char str[this->name.size()];
-	strcpy(str,this->name.c_str());
-	outtextxy(this->x+5,this->y-5,str);
-	if(this->ruleta!=NULL){
-		setlinestyle(0,0,2);
-		this->ruleta->print_roulette();
-		setlinestyle(0,0,1);
+	outtextxy(this->x+5,this->y-5,this->name);
+	if(this->roulette!=NULL){
+		this->button->print_button();
+	}
+}
+
+void Panel::show_number_win(int height,int win_number=-1){
+	int size = (height>600) ? 2 : 1;
+	int center_panel_X = (this->x+(this->width/2));
+	int y = (this->y+(this->height)-(this->height/4));
+	int radius = this->width/15;
+	setlinestyle(0,0,2);
+	circle(center_panel_X,y,radius);
+	setlinestyle(0,0,1);
+	if(win_number>=0 && win_number<=36){
+		settextstyle(10,0,size);
+		settextjustify(CENTER_TEXT,VCENTER_TEXT);
+		char nro[3];
+		itoa(win_number,nro,10);
+		outtextxy(center_panel_X,y+5,nro);
+		settextjustify(LEFT_TEXT,TOP_TEXT);
+		if(win_number==0) setfillstyle(SOLID_FILL,GREEN);
+		else if(roulette->findNegros(win_number)) setfillstyle(SOLID_FILL,BLACK);
+		else setfillstyle(SOLID_FILL,RED);
+		floodfill(center_panel_X,y,WHITE);
+	}
+	else{
+		setfillstyle(SOLID_FILL,COLOR(120,120,120));
+		floodfill(center_panel_X,y,WHITE);
 	}
 }

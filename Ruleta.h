@@ -21,7 +21,7 @@ class Roulette{
 		//ball_angle: angulo inicial de la bola dentro de la ruleta
 		//roulette_speed: velocidad de la ruleta en grados
 		//ball_speed: velocidad de la bola en grados
-		double roulette_angle = -90, ball_angle = -90, roulette_speed, ball_speed;
+		double roulette_angle = -90, ball_angle = -90, roulette_speed = 0, ball_speed = 0;
 	public:
 		Roulette(int x, int y,int radius,int radius2,int radius3){ //inicializar ruleta
 			this->center_roulette_X = x;
@@ -31,7 +31,7 @@ class Roulette{
 			this->radius3 = radius3;
 		}
 		void initialize(); //inicializar velocidad
-		void print_roulette(); // muestra la ruleta estatica
+//		void print_roulette(); // muestra la ruleta estatica
 		void roulette_rotation(); //rotacion de la ruleta
 		void ball_rotation(); //rotacion de la bola
 		int search_repetition_for_square(int); // buscar cuantas casillas hay por delante de la casilla 0 hasta encontrar la casilla ganadora
@@ -51,33 +51,9 @@ void Roulette::initialize(){
 	this->roulette_speed = 5;
 }
 
-void Roulette::print_roulette(){
-	setcolor(WHITE);
-	double roulette_angle = this->roulette_angle;
-	circle(this->center_roulette_X,this->center_roulette_Y,this->radius);
-	circle(this->center_roulette_X,this->center_roulette_Y,this->radius3);
-	for(int i: this->roulette_numbers){
-		roulette_angle += squareAngle;
-		int x1 = this->center_roulette_X + this->radius * cos(roulette_angle*(M_PI/180)), y1 = this->center_roulette_Y + this->radius * sin(roulette_angle*(M_PI/180));
-		int x2 = this->center_roulette_X + this->radius3 * cos(roulette_angle*(M_PI/180)), y2 = this->center_roulette_Y + this->radius3 * sin(roulette_angle*(M_PI/180));
-		int x3 = this->center_roulette_X + ((this->radius+this->radius3)/2) * cos((roulette_angle+mid_sA)*(M_PI/180)), y3 = this->center_roulette_Y + ((this->radius+this->radius3)/2) * sin((roulette_angle+mid_sA)*(M_PI/180));
-		line(x1,y1,x2,y2);
-		if(i==0) setfillstyle(SOLID_FILL,GREEN);
-		else if(this->findNegros(i)) setfillstyle(SOLID_FILL,BLACK);
-		else setfillstyle(SOLID_FILL,RED);
-		floodfill(x3,y3,WHITE);
-	}
-	circle(this->center_roulette_X,this->center_roulette_Y,this->radius2);
-	int distancia = (this->radius+this->radius2)/2;
-	int x = this->center_roulette_X + distancia * cos(this->ball_angle*(M_PI/180)), y = this->center_roulette_Y + distancia * sin(this->ball_angle*(M_PI/180));
-	setcolor(YELLOW);
-	circle(x,y,((this->radius2-this->radius)/2)-1);
-	setfillstyle(SOLID_FILL,YELLOW);
-	floodfill(x,y,YELLOW);
-}
-
 void Roulette::roulette_rotation(){
 	setcolor(WHITE); //Color de trazado es blanco
+	setlinestyle(0,0,2);
 	circle(this->center_roulette_X,this->center_roulette_Y,this->radius); //1er circulo, el mas pequeño
 	circle(this->center_roulette_X,this->center_roulette_Y,this->radius3); //3er crculo, el mas grande
 	for(int i: this->roulette_numbers){ // este for itera la cantidad exacta de elementos que hay en un vector y i: es igual cada elemento de este, entros palabras es el numero de la casilla
@@ -99,6 +75,7 @@ void Roulette::roulette_rotation(){
 	}
 	circle(this->center_roulette_X,this->center_roulette_Y,this->radius2); // 2do circulo
 	this->roulette_angle += this->roulette_speed; //se cambia de posicion la ruleta para generar el efecto de que esta girando 5 grados por fps
+	setlinestyle(0,0,1);
 }
 
 void Roulette::ball_rotation(){
@@ -110,6 +87,7 @@ void Roulette::ball_rotation(){
 	setfillstyle(SOLID_FILL,YELLOW);// se elije el color de relleno de la pelota 
 	floodfill(x,y,YELLOW); // se rellena la pelota
 	this->ball_angle -= this->ball_speed; // se cambia de angulo la pelota oara generar efecto de movimiento
+	setcolor(WHITE);
 }
 
 int Roulette::search_repetition_for_square(int win_number){
@@ -146,7 +124,7 @@ void Roulette::roulette_deceleration(bool &stop,int i,int finish,int &win_number
 void Roulette::ball_deceleration(double square_angle_in_360){
 	if(this->ball_angle<0) this->ball_angle += 360; // cada vez que el angulo sea menor que 0, es decir es negativo se le añade 360° para realizar mejor los calculos
 	if(this->ball_speed>4) this->ball_speed -= 0.25; // reduce 0.25 de velocidad por cada iteracion que la velocidad sea mayor que 4°
-	else if(this->ball_speed>1.1) this->ball_speed -= 0.1; // los mismo pero con 1.1
+	else if(this->ball_speed>1) this->ball_speed -= 0.1; // los mismo pero con 1.1
 	else if(round(this->ball_angle)==round(square_angle_in_360)) this->ball_speed = 0; //si los angulos son iguales se detiene la bola
 }
 
