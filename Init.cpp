@@ -6,7 +6,7 @@
 #define deltaTime 1000/60 //Esto es para generar una tasa de refresco 60 por segundo
 // En resumen seria como los fps
 
-char users[] = "Users",table[] = "Table",roulette[] = "Roulette";
+char users[6] = "Users",board[6] = "Table",roulette[9] = "Roulette";
 
 void refresh(){
 	swapbuffers();
@@ -25,9 +25,12 @@ main(){
 	Panel *panel_users = new Panel(users);
 	panel_users->set_bounds(10,10,(windowWidth*0.30)-10,windowHeight-10);
 	panel_users->show_panel();
-	Panel *panel_table = new Panel(table);
-	panel_table->set_bounds((windowWidth*0.30)+10,10,(windowWidth*0.325)-10,windowHeight-10);
-	panel_table->show_panel();
+	Panel *panel_board = new Panel(board);
+	panel_board->set_bounds((windowWidth*0.30)+10,10,(windowWidth*0.325)-10,windowHeight-10);
+	panel_board->initialize_board();
+	panel_board->board->initialize_boxes();
+	panel_board->show_panel();
+	panel_board->board->print_board();
 	Panel *panel_roulette = new Panel(roulette);
 	panel_roulette->set_bounds((windowWidth*0.30)+(windowWidth*0.325)+10,10,(windowWidth*0.375)-20,windowHeight-10);
 	panel_roulette->initialize_roulette();
@@ -50,12 +53,13 @@ main(){
 		if(ismouseclick(WM_LBUTTONDOWN)){
 			getmouseclick(WM_LBUTTONDOWN,x,y);
 			if(panel_roulette->button->click_button(x,y))
-				win_number = spin_roulette(panel_roulette,panel_table,panel_users);
+				win_number = spin_roulette(panel_roulette,panel_board,panel_users);
 			change = true;
 		}
 		if(change){
 			panel_users->show_panel();
-			panel_table->show_panel();
+			panel_board->show_panel();
+			panel_board->board->print_board();
 			panel_roulette->show_panel();
 			panel_roulette->show_number_win(windowHeight,win_number);
 			panel_roulette->roulette->roulette_rotation();

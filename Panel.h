@@ -1,17 +1,20 @@
 #include"Boton.h"
 #include"Ruleta.h"
+#include"Tablero.h"
 
 class Panel{
 	private:
 		char *name;
 		int x,y,width,height;
 	public:
+		Board *board;
 		Button *button;
 		Roulette *roulette;
 		Panel(char *name){
 			this->name = name;
 		}
 		void initialize_roulette();
+		void initialize_board();
 		void set_bounds(int,int,int,int);
 		void show_panel();
 		void show_number_win(int,int);
@@ -24,6 +27,10 @@ void Panel::initialize_roulette(){
 	this->roulette = new Roulette(center_panel_X,center_panel_Y,radius,radius2,radius3);
 	this->button = new Button("Girar");
 	this->button->set_bounds(this->x+radius3,this->height-(this->height/10)-(this->height/100),radius3,(this->height/10)-(this->height/100));
+}
+
+void Panel::initialize_board(){
+	this->board = new Board(this->x+(this->width*0.05),this->y+(this->height*0.10),(this->width*0.9),(this->height*0.8));
 }
 
 void Panel::set_bounds(int x,int y,int width,int height){
