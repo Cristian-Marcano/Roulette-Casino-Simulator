@@ -14,6 +14,7 @@ class Board{
 		}
 		void initialize_boxes();
 		void print_board();
+		void click_boxes(int,int,int);
 };
 
 void Board::initialize_boxes(){
@@ -49,4 +50,14 @@ void Board::print_board(){
 	}
 	settextstyle(11,0,1);
 	settextjustify(LEFT_TEXT,TOP_TEXT);
+}
+
+void Board::click_boxes(int x,int y,int id){
+	if((this->x>=x && (this->x+this->width)<=x) && (this->y>=y && (this->y+this->height)<=y)){
+		for(int i=0; i<12; i++){
+			for(int j=0; j<3; j++){
+				if(this->number_boxes[i][j]->click(x,y)) this->number_boxes[i][j]->insert(id);
+			}
+		}
+	}
 }

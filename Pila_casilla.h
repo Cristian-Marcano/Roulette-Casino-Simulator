@@ -14,6 +14,15 @@ void insert_user(Pila *&casilla,int id){
 	casilla = nuevo_user;
 }
 
+bool verify_user(Pila *&casilla,int id){
+	Pila *verify = casilla;
+	while(verify!=NULL){
+		if(verify->id) return true;
+		verify = verify->sig;
+	}
+	return false;
+}
+
 void insert_coin(Pila *&casilla,int id){
 	Pila *show = casilla;
 	while(show!=NULL){

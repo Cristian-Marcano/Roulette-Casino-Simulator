@@ -23,6 +23,8 @@ class Board_box{
 		}
 		void print_box_nro();
 		void print_box_others();
+		bool click(int,int);
+		void insert(int);
 };
 
 void Board_box::print_box_nro(){
@@ -56,6 +58,15 @@ void Board_box::print_box_others(){
 		else outtextxy(center_board_box_X,y+5,str);
 		settextstyle(10,0,1);
 	}
-	setfillstyle(SOLID_FILL,COLOR(90,90,90));
+	setfillstyle(SOLID_FILL,COLOR(85,85,85));
 	floodfill(this->x+1,this->y+1,WHITE);
+}
+
+bool Board_box::click(int x,int y){
+	return ((this->x>=x && (this->x+this->width)<=x) && (this->y>=y && (this->y+this->height)<=y)) ? true : false;
+}
+
+void Board_box::insert(int id){
+	if(!verify_user(this->casilla,id)) insert_user(this->casilla,id);
+	insert_coin(this->casilla,id);
 }
