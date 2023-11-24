@@ -18,6 +18,7 @@ class Panel{
 		void set_bounds(int,int,int,int);
 		void show_panel();
 		void show_number_win(int,int);
+		void apply_view_port();
 };
 
 void Panel::initialize_roulette(){
@@ -46,6 +47,8 @@ void Panel::show_panel(){
 	outtextxy(this->x+5,this->y-5,this->name);
 	if(this->roulette!=NULL){
 		this->button->print_button();
+		if(this->button->focus()) this->button->apply_color_focus();
+		else this->button->apply_color();
 	}
 }
 
@@ -73,4 +76,8 @@ void Panel::show_number_win(int height,int win_number=-1){
 		setfillstyle(SOLID_FILL,COLOR(120,120,120));
 		floodfill(center_panel_X,y,WHITE);
 	}
+}
+
+void Panel::apply_view_port(){
+	setviewport(this->x-5,0,this->x+this->width,this->height+10,1);
 }

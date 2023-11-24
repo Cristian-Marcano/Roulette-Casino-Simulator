@@ -14,6 +14,8 @@ class Button{
 		void set_bounds(int,int,int,int);
 		void print_button();
 		bool focus();
+		void apply_color_focus();
+		void apply_color();
 		bool click_button(int,int);
 		void set_bk_color(int,int,int);
 		void set_bk_color_focus(int,int,int);
@@ -40,14 +42,17 @@ void Button::print_button(){
 }
 
 bool Button::focus(){
-	if((mousex()>=this->x && mousex()<=(this->x+this->width)) && (mousey()>=this->y && mousey()<=(this->y+this->height))){
-		setfillstyle(SOLID_FILL,this->color_focus);
-		floodfill(this->x+5,this->y+5,WHITE);
-		return true;
-	}
+	return ((mousex()>=this->x && mousex()<=(this->x+this->width)) && (mousey()>=this->y && mousey()<=(this->y+this->height))) ? true : false;
+}
+
+void Button::apply_color_focus(){
+	setfillstyle(SOLID_FILL,this->color_focus);
+	floodfill(this->x+5,this->y+5,WHITE);
+}
+
+void Button::apply_color(){
 	setfillstyle(SOLID_FILL,this->color);
 	floodfill(this->x+5,this->y+5,WHITE);
-	return false;
 }
 
 bool Button::click_button(int x,int y){
