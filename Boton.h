@@ -11,16 +11,14 @@ class Button{
 		Button(string text){
 			this->text_button = text;
 		}
-		void set_bounds(int,int,int,int);
-		void print_button();
-		bool focus();
-		void apply_color_focus();
-		void apply_color();
-		bool click_button(int,int);
-		void set_bk_color(int,int,int);
-		void set_bk_color_focus(int,int,int);
-		int get_bk_color();
-		int get_bk_color_focus();
+		void set_bounds(int,int,int,int); // establecer medidas
+		void print_button(); // imprimir boton
+		bool focus(); // retorn true si el mouse esta encima del boton
+		void apply_color_focus(); // aplicar color de color focus
+		void apply_color(); // aplicar color default
+		bool click_button(int,int); // retorna true si el mouse presiono el botton
+		void set_bk_color(int,int,int); // cambiar el color del color por default del boton
+		void set_bk_color_focus(int,int,int); // cambiar el color del color focus del boton
 };
 
 void Button::set_bounds(int x,int y,int width,int height){
@@ -31,14 +29,13 @@ void Button::set_bounds(int x,int y,int width,int height){
 }
 
 void Button::print_button(){
-	setcolor(WHITE);
-	rectangle(this->x,this->y,this->x+this->width,this->y+this->height);
-	char text[this->text_button.size()];
+	setcolor(WHITE); // establecer el color de escritura en blanco
+	rectangle(this->x,this->y,this->x+this->width,this->y+this->height); // mostrar un rectangulo que es la forma del boton
+	char text[this->text_button.size()]; // text recibira el valor del atributo text_button
 	strcpy(text,this->text_button.c_str());
-	settextjustify(CENTER_TEXT,VCENTER_TEXT);
+	settextjustify(CENTER_TEXT,VCENTER_TEXT); // establecer ajuste de estilo de texto a centrado
 	outtextxy(this->x+(this->width/2),this->y+(this->height/2),text);
-	settextjustify(LEFT_TEXT,TOP_TEXT);
-	this->focus();
+	settextjustify(LEFT_TEXT,TOP_TEXT); // establecer ajuste de estilo de texto a por default
 }
 
 bool Button::focus(){
@@ -65,12 +62,4 @@ void Button::set_bk_color(int r,int g,int b){
 
 void Button::set_bk_color_focus(int r,int g,int b){
 	this->color_focus = COLOR(r,g,b);
-}
-
-int Button::get_bk_color(){
-	return this->color;
-}
-
-int Button::get_bk_color_focus(){
-	return this->color_focus;
 }
