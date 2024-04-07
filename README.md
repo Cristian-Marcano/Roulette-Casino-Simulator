@@ -11,3 +11,4 @@ Aplicación que simula una ruleta de casino, elaborado con $C++$ y $Graphics.h$.
 
 ### Imagenes
 
+![Ruleta](https://github.com/Cristian-Marcano/Roulette-Casino-Simulator/assets/136503211/d5d8a864-73d7-4cf9-a4bb-d685185b835d)
