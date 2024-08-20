@@ -65,7 +65,7 @@ void Board::print_board(){
 }
 
 bool Board::click(int x,int y){
-	return ((this->x<=x && (this->x+this->width)>=x) && (this->y<=y && (this->y+this->height)>=y)) ? true : false;
+	return ((this->x<=x && (this->x+this->width)>=x) && ((this->y + this->height/14)<=y && (this->y+this->height)>=y)) ? true : false;
 }
 
 void Board::click_boxes(int x,int y){
