@@ -55,6 +55,7 @@ main(){
 	// change: realizar actualizado de pantalla cuando haya un cambio
 	bool focus = false,change = true;
 	do{
+		delay(deltaTime);
 		//x: coordenada del mouse en x
 		//y: coordenadas del mouse en y
 		int x,y;
